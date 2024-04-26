@@ -34,17 +34,17 @@ public class ParallelImageProcessingService implements IImageProcessingService {
         if (filter == null) {
             return null;
         }
-        BufferedImage bufferedImage = Imaging.getBufferedImage(imageData);
-        BufferedImage[] bufferedImages = splitImage(bufferedImage, 2, 2);
-        BufferedImage[] processedImages = new BufferedImage[bufferedImages.length];
+        BufferedImage image = Imaging.getBufferedImage(imageData);
+        BufferedImage[] imageSegments = splitImage(image, 2, 2);
+        BufferedImage[] processedImages = new BufferedImage[imageSegments.length];
 
         ExecutorService executorService = Executors.newFixedThreadPool(4);
 
-        for (int i = 0; i < bufferedImages.length; i++) {
+        for (int i = 0; i < imageSegments.length; i++) {
             final int index = i;
             executorService.execute(() -> {
                 try {
-                    processedImages[index] = filter.applyFilter(bufferedImages[index]);
+                    processedImages[index] = filter.applyFilter(imageSegments[index]);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -55,7 +55,7 @@ public class ParallelImageProcessingService implements IImageProcessingService {
         executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
 
         BufferedImage filteredImage = mergeImageParts(processedImages, 2, 2);
-        byte[] grayImageData = bufferedImageToByteArray(filteredImage);
-        return Base64.getEncoder().encodeToString(grayImageData);
+        byte[] filteredImageData = bufferedImageToByteArray(filteredImage);
+        return Base64.getEncoder().encodeToString(filteredImageData);
     }
 }
