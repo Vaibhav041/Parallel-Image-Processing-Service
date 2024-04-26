@@ -1,5 +1,6 @@
 package dev.vaibhav.imageprocessing.service;
 
+import dev.vaibhav.imageprocessing.filter.BrightnessFilter;
 import dev.vaibhav.imageprocessing.filter.Filter;
 import dev.vaibhav.imageprocessing.filter.GrayScaleFilter;
 import org.apache.commons.imaging.Imaging;
@@ -22,8 +23,9 @@ public class ParallelImageProcessingService implements IImageProcessingService {
     Map<String, Filter> filters = new HashMap<>();
     ImageService imageService;
     @Autowired
-    ParallelImageProcessingService(GrayScaleFilter grayScaleFilter, ImageService imageService) {
+    ParallelImageProcessingService(GrayScaleFilter grayScaleFilter, BrightnessFilter brightnessFilter, ImageService imageService) {
         filters.put("grayscale", grayScaleFilter);
+        filters.put("brightness", brightnessFilter);
         this.imageService = imageService;
     }
 
@@ -54,7 +56,7 @@ public class ParallelImageProcessingService implements IImageProcessingService {
         executorService.shutdown();
         executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
 
-        BufferedImage filteredImage = mergeImageParts(processedImages, 2, 2);
+        BufferedImage filteredImage = mergeImageParts(processedImages, 2, 2, filterType.equals("grayscale"));
         byte[] filteredImageData = bufferedImageToByteArray(filteredImage);
         return Base64.getEncoder().encodeToString(filteredImageData);
     }

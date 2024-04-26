@@ -1,5 +1,6 @@
 package dev.vaibhav.imageprocessing.service;
 
+import dev.vaibhav.imageprocessing.filter.BrightnessFilter;
 import dev.vaibhav.imageprocessing.filter.Filter;
 import dev.vaibhav.imageprocessing.filter.GrayScaleFilter;
 import org.apache.commons.imaging.Imaging;
@@ -19,8 +20,9 @@ public class ImageProcessingService implements IImageProcessingService {
     Map<String, Filter> filters = new HashMap<>();
     ImageService imageService;
     @Autowired
-    ImageProcessingService(GrayScaleFilter grayScaleFilter, ImageService imageService) {
+    ImageProcessingService(GrayScaleFilter grayScaleFilter, BrightnessFilter brightnessFilter, ImageService imageService) {
         filters.put("grayscale", grayScaleFilter);
+        filters.put("brightness", brightnessFilter);
         this.imageService = imageService;
     }
 

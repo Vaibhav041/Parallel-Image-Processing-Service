@@ -41,13 +41,13 @@ public class ImageUtil {
     }
 
 
-    public static BufferedImage mergeImageParts(BufferedImage[] parts, int numRows, int numCols) {
+    public static BufferedImage mergeImageParts(BufferedImage[] parts, int numRows, int numCols, boolean typeGray) {
         int partWidth = parts[0].getWidth();
         int partHeight = parts[0].getHeight();
         int mergedWidth = numCols * partWidth;
         int mergedHeight = numRows * partHeight;
 
-        BufferedImage mergedImage = new BufferedImage(mergedWidth, mergedHeight, BufferedImage.TYPE_BYTE_GRAY);
+        BufferedImage mergedImage = new BufferedImage(mergedWidth, mergedHeight, typeGray ? BufferedImage.TYPE_BYTE_GRAY : BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = mergedImage.createGraphics();
 
         for (int i = 0; i < parts.length; i++) {
