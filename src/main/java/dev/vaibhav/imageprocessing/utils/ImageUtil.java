@@ -40,19 +40,21 @@ public class ImageUtil {
         return parts;
     }
 
+
     public static BufferedImage mergeImageParts(BufferedImage[] parts, int numRows, int numCols) {
         int partWidth = parts[0].getWidth();
         int partHeight = parts[0].getHeight();
         int mergedWidth = numCols * partWidth;
         int mergedHeight = numRows * partHeight;
+
         BufferedImage mergedImage = new BufferedImage(mergedWidth, mergedHeight, BufferedImage.TYPE_BYTE_GRAY);
         Graphics2D g2d = mergedImage.createGraphics();
+
         for (int i = 0; i < parts.length; i++) {
             int row = i / numCols;
             int col = i % numCols;
             int x = col * partWidth;
             int y = row * partHeight;
-
             g2d.drawImage(parts[i], x, y, null);
         }
         g2d.dispose();
