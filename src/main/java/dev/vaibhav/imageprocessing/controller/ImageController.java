@@ -33,7 +33,11 @@ public class ImageController {
     @GetMapping("/filter")
     public ResponseEntity<String> filter(@RequestParam("imageId") Long imageId, @RequestParam("filterType") String filterType) {
         try {
-            return new ResponseEntity<>(imageProcessingService.applyFilter(imageId, filterType), HttpStatus.OK);
+            String filteredImage = imageProcessingService.applyFilter(imageId, filterType);
+            if (filteredImage == null) {
+                return new ResponseEntity<>("Filter not found", HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(filteredImage, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
