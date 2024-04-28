@@ -20,10 +20,10 @@ import static dev.vaibhav.imageprocessing.utils.ImageUtil.*;
 
 @Service("parallelImageProcessingService")
 public class ParallelImageProcessingService implements IImageProcessingService {
-    Map<String, Filter> filters = new HashMap<>();
-    ImageService imageService;
+    private final Map<String, Filter> filters = new HashMap<>();
+    private final ImageService imageService;
     @Autowired
-    ParallelImageProcessingService(GrayScaleFilter grayScaleFilter, BrightnessFilter brightnessFilter, ImageService imageService) {
+    public ParallelImageProcessingService(GrayScaleFilter grayScaleFilter, BrightnessFilter brightnessFilter, ImageService imageService) {
         filters.put("grayscale", grayScaleFilter);
         filters.put("brightness", brightnessFilter);
         this.imageService = imageService;
