@@ -3,15 +3,14 @@ package dev.vaibhav.imageprocessing.filter;
 import org.springframework.stereotype.Component;
 
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 @Component
 public class BrightnessFilter implements Filter {
     @Override
-    public BufferedImage applyFilter(BufferedImage image) throws IOException {
+    public BufferedImage applyFilter(BufferedImage image) {
         int width = image.getWidth();
         int height = image.getHeight();
-        int amount = (int)(30 * 255 / 100);
+        int amount = (30 * 255 / 100);
 
         BufferedImage brightenedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         for (int x = 0; x < width; x++) {

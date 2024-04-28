@@ -27,7 +27,7 @@ public class ImageProcessingService implements IImageProcessingService {
     }
 
     @Override
-    public String applyFilter(Long imageId, String filterType) throws IOException {
+    public String applyFilter(Long imageId, String filterType) throws Exception {
         byte[] imageData = imageService.getImageById(imageId).getImageData();
         Filter filter = filters.get(filterType);
         if (filter == null) {

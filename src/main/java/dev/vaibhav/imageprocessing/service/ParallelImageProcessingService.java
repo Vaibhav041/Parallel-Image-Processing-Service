@@ -44,13 +44,7 @@ public class ParallelImageProcessingService implements IImageProcessingService {
 
         for (int i = 0; i < imageSegments.length; i++) {
             final int index = i;
-            executorService.execute(() -> {
-                try {
-                    processedImages[index] = filter.applyFilter(imageSegments[index]);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
+            executorService.execute(() -> processedImages[index] = filter.applyFilter(imageSegments[index]));
         }
 
         executorService.shutdown();
